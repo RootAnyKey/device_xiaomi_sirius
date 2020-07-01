@@ -128,8 +128,8 @@ void Light::handleBattery(const LightState& state) {
 
     if (onMs > 0 && offMs > 0) {
         uint32_t pauseLo, pauseHi, stepDuration;
-        stepDuration = 10;
-        if (stepDuration * kRampSteps > onMs) {
+        if (kRampMaxStepDurationMs * kRampSteps > onMs) {
+            stepDuration = onMs / kRampSteps;
             pauseHi = 0;
         } else {
             pauseHi = onMs - kRampSteps * stepDuration;
