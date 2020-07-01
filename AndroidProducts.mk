@@ -14,9 +14,4 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/mokee_sirius.mk
-
-COMMON_LUNCH_CHOICES := \
-    mokee_sirius-user \
-    mokee_sirius-userdebug \
-    mokee_sirius-eng
+    $(LOCAL_DIR)/derp_sirius.mk

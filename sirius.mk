@@ -13,6 +13,9 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 # Get non-open-source specific aspects
 $(call inherit-product-if-exists, vendor/xiaomi/sirius/sirius-vendor.mk)
+ifeq ($(DERP_BUILD_ZIP_TYPE), GAPPS)
+    $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
+endif
 
 # Bootanimation
 TARGET_SCREEN_WIDTH := 1080
@@ -24,15 +27,21 @@ $(call inherit-product, $(LOCAL_PATH)/properties.mk)
 # Setup dalvik vm configs
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
 
+#CameraGo
+ifeq ($(DERP_BUILD_ZIP_TYPE), GAPPS)
+PRODUCT_PACKAGES += \
+    CameraGo
+endif
+
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-mokee \
+    $(LOCAL_PATH)/overlay-derp \
     $(LOCAL_PATH)/overlay-system
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += \
-    $(LOCAL_PATH)/overlay-mokee/mokee-sdk \
+    $(LOCAL_PATH)/overlay-derp/mokee-sdk \
     $(LOCAL_PATH)/overlay-system
 
 PRODUCT_PACKAGES += \
@@ -253,11 +262,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service.xiaomi_sirius
 
-# LiveDisplay
-PRODUCT_PACKAGES += \
-    vendor.mokee.livedisplay@2.0-service-sdm \
-    vendor.mokee.livedisplay@2.0-service.xiaomi_sirius
-
 # Media
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
@@ -406,3 +410,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BOOT_JARS += \
     WfdCommon
+
+# Wallpapers
+PRODUCT_PACKAGES += \
+    PixelLiveWallpaperPrebuilt
